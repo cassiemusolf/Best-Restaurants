@@ -61,9 +61,23 @@ namespace BestRestaurants
 
         int testId = testRestaurant.GetId();
         int result = savedRestaurant.GetId();
-        
+
         //Assert
         Assert.Equal(testId, result);
+    }
+
+    [Fact]
+    public void Test_Find_FindsRestaurantInDatabase()
+    {
+        //Arrange
+        Restaurant testRestaurant = new Restaurant("Bang Bar", "West Seattle", "Medium");
+        testRestaurant.Save();
+
+        //Act
+        Restaurant foundRestaurant = Restaurant.Find(testRestaurant.GetId());
+
+        //Assert
+        Assert.Equal(testRestaurant, foundRestaurant);
     }
 
     public void Dispose()
