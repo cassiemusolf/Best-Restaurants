@@ -6,17 +6,26 @@ using System.Data.SqlClient;
 
 namespace BestRestaurants
 {
-  public class RestaurantsTest : IDisposable
+  public class RestaurantTest : IDisposable
   {
-    public RestaurantsTest()
+    public RestaurantTest()
     {
       DBConfiguration.ConnectionString = "Data Source=(localdb)\\mssqllocaldb;Initial Catalog=bestrestaurants_test;Integrated Security=SSPI;";
     }
 
+    [Fact]
+    public void Test_DatabaseEmptyAtFirst()
+    {
+        //Arrange, Act
+        int result = Restaurant.GetAll().Count;
+
+        //Assert
+        Assert.Equal(0, result);
+    }
 
     public void Dispose()
     {
-      Restaurants.DeleteAll();
+      Restaurant.DeleteAll();
     }
   }
 }
