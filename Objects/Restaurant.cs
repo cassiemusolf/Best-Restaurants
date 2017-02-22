@@ -19,6 +19,23 @@ namespace BestRestaurants
             _price = Price;
         }
 
+        public override bool Equals(System.Object otherRestaurant)
+        {
+          if (!(otherRestaurant is Restaurant))
+          {
+            return false;
+          }
+          else
+          {
+            Restaurant newRestaurant = (Restaurant) otherRestaurant;
+            bool idEquality = (this.GetId() == newRestaurant.GetId());
+            bool nameEquality = (this.GetName() == newRestaurant.GetName());
+            bool locationEquality = (this.GetLocation() == newRestaurant.GetLocation());
+            bool priceEquality = (this.GetPrice() == newRestaurant.GetPrice());
+            return (idEquality && nameEquality && locationEquality && priceEquality);
+          }
+        }
+
         public int GetId()
         {
             return _id;
@@ -79,6 +96,45 @@ namespace BestRestaurants
 
             return allRestaurants;
         }
+
+        public void Save()
+        {
+            SqlConnection conn = DB.Connection();
+            conn.Open();
+
+            SqlCommand cmd = new SqlCommand("INSERT INTO restaurants (name, location, price) OUTPUT INSERTED.id VALUES (@RestaurantName, @RestaurantLocation, @RestaurantPrice);", conn);
+
+            SqlParameter nameParameter = new SqlParameter();
+            nameParameter.ParameterName = "@RestaurantName";
+            nameParameter.Value = this.GetName();
+            cmd.Parameters.Add(nameParameter);
+
+            SqlParameter locationParameter = new SqlParameter();
+            locationParameter.ParameterName = "@RestaurantLocation";
+            locationParameter.Value = this.GetLocation();
+            cmd.Parameters.Add(locationParameter);
+
+            SqlParameter priceParameter = new SqlParameter();
+            priceParameter.ParameterName = "@RestaurantPrice";
+            priceParameter.Value = this.GetPrice();
+            cmd.Parameters.Add(priceParameter);
+
+            SqlDataReader rdr = cmd.ExecuteReader();
+
+            while(rdr.Read())
+            {
+                this._id = rdr.GetInt32(0);
+            }
+            if (rdr != null)
+            {
+                rdr.Close();
+            }
+            if (conn != null)
+            {
+                conn.Close();
+            }
+        }
+
         public static void DeleteAll()
         {
           SqlConnection conn = DB.Connection();

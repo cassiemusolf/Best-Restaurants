@@ -23,6 +23,32 @@ namespace BestRestaurants
         Assert.Equal(0, result);
     }
 
+    [Fact]
+    public void Test_Equal_ReturnsTrueIfDescriptionsAreTheSame()
+    {
+      //Arrange, Act
+      Restaurant firstRestaurant = new Restaurant("Seattle Chan", "Seattle", "High");
+      Restaurant secondRestaurant = new Restaurant("Seattle Chan", "Seattle", "High");
+
+      //Assert
+      Assert.Equal(firstRestaurant, secondRestaurant);
+    }
+
+    [Fact]
+    public void Test_Save_SavesToDatabase()
+    {
+        //Arrange
+        Restaurant testRestaurant = new Restaurant("Laredo's", "Seattle", "Medium");
+        testRestaurant.Save();
+
+        //Act
+        List<Restaurant> result = Restaurant.GetAll();
+        List<Restaurant> testList = new List<Restaurant>{testRestaurant};
+
+        //Assert
+        Assert.Equal(testList, result);
+    }
+
     public void Dispose()
     {
       Restaurant.DeleteAll();
