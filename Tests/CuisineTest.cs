@@ -63,9 +63,32 @@ namespace BestRestaurants
             Assert.Equal(testCuisine, foundCuisine);
         }
 
+
+        [Fact]
+        public void Test_GetRestaurants_RetrievesAllRestaurantsWithCuisine()
+        {
+            Cuisine testCuisine = new Cuisine("Thai");
+            testCuisine.Save();
+
+            Restaurant firstRestaurant = new Restaurant("Bang Bar", "West Seattle", "Medium", testCuisine.GetId());
+            firstRestaurant.Save();
+            Restaurant secondRestaurant = new Restaurant("Matador", "Seattle", "Low", testCuisine.GetId());
+            secondRestaurant.Save();
+            Console.WriteLine(secondRestaurant);
+
+            List<Restaurant> testRestaurantList = new List<Restaurant> {firstRestaurant, secondRestaurant};
+            List<Restaurant> resultRestaurantList = testCuisine.GetRestaurants();
+            Console.WriteLine(testRestaurantList[0].GetId());
+            Console.WriteLine(resultRestaurantList[0].GetId());
+
+            Assert.Equal(testRestaurantList, resultRestaurantList);
+        }
+
+
         public void Dispose()
         {
             Cuisine.DeleteAll();
+            Restaurant.DeleteAll();
         }
 
     }

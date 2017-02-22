@@ -37,69 +37,69 @@ namespace BestRestaurants
 
         public string GetName()
         {
-          return _name;
+            return _name;
         }
 
         public void SetName(string newName)
         {
-          _name = newName;
+            _name = newName;
         }
 
         public static List<Cuisine> GetAll()
         {
-          List<Cuisine> allCuisines = new List<Cuisine>{};
+            List<Cuisine> allCuisines = new List<Cuisine>{};
 
-          SqlConnection conn = DB.Connection();
-          conn.Open();
+            SqlConnection conn = DB.Connection();
+            conn.Open();
 
-          SqlCommand cmd = new SqlCommand("SELECT * FROM cuisine;", conn);
-          SqlDataReader rdr = cmd.ExecuteReader();
+            SqlCommand cmd = new SqlCommand("SELECT * FROM cuisine;", conn);
+            SqlDataReader rdr = cmd.ExecuteReader();
 
-          while(rdr.Read())
-          {
-            int cuisineId = rdr.GetInt32(0);
-            string cuisineName = rdr.GetString(1);
-            Cuisine newCuisine = new Cuisine(cuisineName, cuisineId);
-            allCuisines.Add(newCuisine);
-          }
+            while(rdr.Read())
+            {
+                int cuisineId = rdr.GetInt32(0);
+                string cuisineName = rdr.GetString(1);
+                Cuisine newCuisine = new Cuisine(cuisineName, cuisineId);
+                allCuisines.Add(newCuisine);
+            }
 
-          if (rdr != null)
-          {
-            rdr.Close();
-          }
-          if (conn != null)
-          {
-            conn.Close();
-          }
+            if (rdr != null)
+            {
+                rdr.Close();
+            }
+            if (conn != null)
+            {
+                conn.Close();
+            }
 
-          return allCuisines;
+            return allCuisines;
         }
 
         public void Save()
         {
-          SqlConnection conn = DB.Connection();
-          conn.Open();
+            SqlConnection conn = DB.Connection();
+            conn.Open();
 
-          SqlCommand cmd = new SqlCommand("INSERT INTO cuisine (name) OUTPUT INSERTED.id VALUES (@CuisineName);", conn);
+            SqlCommand cmd = new SqlCommand("INSERT INTO cuisine (name) OUTPUT INSERTED.id VALUES (@CuisineName);", conn);
 
-          SqlParameter nameParameter = new SqlParameter();
-          nameParameter.ParameterName = "@CuisineName";
-          nameParameter.Value = this.GetName();
-          cmd.Parameters.Add(nameParameter);
-          SqlDataReader rdr = cmd.ExecuteReader();
+            SqlParameter nameParameter = new SqlParameter();
+            nameParameter.ParameterName = "@CuisineName";
+            nameParameter.Value = this.GetName();
+            cmd.Parameters.Add(nameParameter);
+            SqlDataReader rdr = cmd.ExecuteReader();
 
-          while(rdr.Read())
-          {
-            this._id = rdr.GetInt32(0);
-          }
-          if (rdr != null)
-          {
-            rdr.Close();
-          }
-          if(conn != null)
-          {
-            conn.Close();
-          }
+            while(rdr.Read())
+            {
+                this._id = rdr.GetInt32(0);
+            }
+            if (rdr != null)
+            {
+                rdr.Close();
+            }
+            if(conn != null)
+            {
+                conn.Close();
+            }
         }
 
         public static Cuisine Find(int id)
@@ -133,6 +133,40 @@ namespace BestRestaurants
                 conn.Close();
             }
             return foundCuisine;
+        }
+
+        public List<Restaurant> GetRestaurants()
+        {
+            SqlConnection conn = DB.Connection();
+            conn.Open();
+
+            SqlCommand cmd = new SqlCommand("SELECT * FROM restaurants WHERE cuisine_id = @CuisineId;", conn);
+            SqlParameter cuisineIdParameter = new SqlParameter();
+            cuisineIdParameter.ParameterName = "@CuisineId";
+            cuisineIdParameter.Value = this.GetId();
+            cmd.Parameters.Add(cuisineIdParameter);
+            SqlDataReader rdr = cmd.ExecuteReader();
+
+            List<Restaurant> restaurants = new List<Restaurant> {};
+            while(rdr.Read())
+            {
+                int restaurantId = rdr.GetInt32(0);
+                string restaurantName = rdr.GetString(1);
+                string restaurantLocation = rdr.GetString(2);
+                string restaurantPrice = rdr.GetString(3);
+                int restaurantCuisineId = rdr.GetInt32(4);
+                Restaurant newRestaurant = new Restaurant(restaurantName, restaurantLocation, restaurantPrice, restaurantCuisineId, restaurantId);
+                restaurants.Add(newRestaurant);
+            }
+            if (rdr != null)
+            {
+                rdr.Close();
+            }
+            if (conn != null)
+            {
+                conn.Close();
+            }
+            return restaurants;
         }
 
         public static void DeleteAll()

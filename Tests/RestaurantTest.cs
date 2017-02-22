@@ -55,7 +55,7 @@ namespace BestRestaurants
         //Arrange
         Restaurant testRestaurant = new Restaurant("KFC", "Federal Way", "Low", 1);
         testRestaurant.Save();
-        
+
         //Act
         Restaurant savedRestaurant = Restaurant.GetAll()[0];
 
@@ -80,6 +80,7 @@ namespace BestRestaurants
         Assert.Equal(testRestaurant, foundRestaurant);
     }
 
+    [Fact]
     public void Dispose()
     {
       Restaurant.DeleteAll();
