@@ -49,6 +49,23 @@ namespace BestRestaurants
         Assert.Equal(testList, result);
     }
 
+    [Fact]
+    public void Test_Save_AssignsIdToObject()
+    {
+        //Arrange
+        Restaurant testRestaurant = new Restaurant("KFC", "Federal Way", "Low");
+
+        //Act
+        testRestaurant.Save();
+        Restaurant savedRestaurant = Restaurant.GetAll()[0];
+
+        int testId = testRestaurant.GetId();
+        int result = savedRestaurant.GetId();
+        
+        //Assert
+        Assert.Equal(testId, result);
+    }
+
     public void Dispose()
     {
       Restaurant.DeleteAll();
