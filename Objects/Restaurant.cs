@@ -10,30 +10,33 @@ namespace BestRestaurants
         private string _name;
         private string _location;
         private string _price;
+        private int _cuisineId;
 
-        public Restaurant(string Name, string Location, string Price, int Id = 0)
+        public Restaurant(string Name, string Location, string Price, int CuisineId, int Id = 0)
         {
             _id = Id;
             _name = Name;
             _location = Location;
             _price = Price;
+            _cuisineId = CuisineId;
         }
 
         public override bool Equals(System.Object otherRestaurant)
         {
-          if (!(otherRestaurant is Restaurant))
-          {
-            return false;
-          }
-          else
-          {
-            Restaurant newRestaurant = (Restaurant) otherRestaurant;
-            bool idEquality = (this.GetId() == newRestaurant.GetId());
-            bool nameEquality = (this.GetName() == newRestaurant.GetName());
-            bool locationEquality = (this.GetLocation() == newRestaurant.GetLocation());
-            bool priceEquality = (this.GetPrice() == newRestaurant.GetPrice());
-            return (idEquality && nameEquality && locationEquality && priceEquality);
-          }
+            if (!(otherRestaurant is Restaurant))
+            {
+                return false;
+            }
+            else
+            {
+                Restaurant newRestaurant = (Restaurant) otherRestaurant;
+                bool idEquality = (this.GetId() == newRestaurant.GetId());
+                bool nameEquality = (this.GetName() == newRestaurant.GetName());
+                bool locationEquality = (this.GetLocation() == newRestaurant.GetLocation());
+                bool priceEquality = (this.GetPrice() == newRestaurant.GetPrice());
+                bool cuisineEquality = (this.GetCuisineId() == newRestaurant.GetCuisineId());
+                return (idEquality && nameEquality && locationEquality && priceEquality && cuisineEquality);
+            }
         }
 
         public int GetId()
@@ -64,6 +67,14 @@ namespace BestRestaurants
         {
             _price = newPrice;
         }
+        public int GetCuisineId()
+        {
+            return _cuisineId;
+        }
+        public void SetCuisineId(int newCuisineId)
+        {
+            _cuisineId = newCuisineId;
+        }
 
         public static List<Restaurant> GetAll()
         {
@@ -81,7 +92,8 @@ namespace BestRestaurants
                 string restaurantName = rdr.GetString(1);
                 string restaurantLocation = rdr.GetString(2);
                 string restaurantPrice = rdr.GetString(3);
-                Restaurant newRestaurant = new Restaurant(restaurantName, restaurantLocation, restaurantPrice, restaurantId);
+                int restaurantCuisineId = rdr.GetInt32(4);
+                Restaurant newRestaurant = new Restaurant(restaurantName, restaurantLocation, restaurantPrice, restaurantCuisineId, restaurantId);
                 allRestaurants.Add(newRestaurant);
             }
 
@@ -102,7 +114,7 @@ namespace BestRestaurants
             SqlConnection conn = DB.Connection();
             conn.Open();
 
-            SqlCommand cmd = new SqlCommand("INSERT INTO restaurants (name, location, price) OUTPUT INSERTED.id VALUES (@RestaurantName, @RestaurantLocation, @RestaurantPrice);", conn);
+            SqlCommand cmd = new SqlCommand("INSERT INTO restaurants (name, location, price, cuisine_id) OUTPUT INSERTED.id VALUES (@RestaurantName, @RestaurantLocation, @RestaurantPrice, @RestaurantCuisineId);", conn);
 
             SqlParameter nameParameter = new SqlParameter();
             nameParameter.ParameterName = "@RestaurantName";
@@ -118,6 +130,11 @@ namespace BestRestaurants
             priceParameter.ParameterName = "@RestaurantPrice";
             priceParameter.Value = this.GetPrice();
             cmd.Parameters.Add(priceParameter);
+
+            SqlParameter cuisineIdParameter = new SqlParameter();
+            cuisineIdParameter.ParameterName = "@RestaurantCuisineId";
+            cuisineIdParameter.Value = this.GetCuisineId();
+            cmd.Parameters.Add(cuisineIdParameter);
 
             SqlDataReader rdr = cmd.ExecuteReader();
 
@@ -152,6 +169,7 @@ namespace BestRestaurants
             string foundRestaurantName = null;
             string foundRestaurantLocation = null;
             string foundRestaurantPrice = null;
+            int foundRestaurantCuisineId = 0;
 
             while(rdr.Read())
             {
@@ -159,8 +177,9 @@ namespace BestRestaurants
                 foundRestaurantName = rdr.GetString(1);
                 foundRestaurantLocation = rdr.GetString(2);
                 foundRestaurantPrice = rdr.GetString(3);
+                foundRestaurantCuisineId = rdr.GetInt32(4);
             }
-            Restaurant foundRestaurant = new Restaurant(foundRestaurantName, foundRestaurantLocation, foundRestaurantPrice, foundRestaurantId);
+            Restaurant foundRestaurant = new Restaurant(foundRestaurantName, foundRestaurantLocation, foundRestaurantPrice, foundRestaurantCuisineId, foundRestaurantId);
 
             if (rdr != null)
             {
@@ -176,11 +195,11 @@ namespace BestRestaurants
 
         public static void DeleteAll()
         {
-          SqlConnection conn = DB.Connection();
-          conn.Open();
-          SqlCommand cmd = new SqlCommand("DELETE FROM restaurants;", conn);
-          cmd.ExecuteNonQuery();
-          conn.Close();
+            SqlConnection conn = DB.Connection();
+            conn.Open();
+            SqlCommand cmd = new SqlCommand("DELETE FROM restaurants;", conn);
+            cmd.ExecuteNonQuery();
+            conn.Close();
         }
     }
 }

@@ -27,8 +27,8 @@ namespace BestRestaurants
     public void Test_Equal_ReturnsTrueIfDescriptionsAreTheSame()
     {
       //Arrange, Act
-      Restaurant firstRestaurant = new Restaurant("Seattle Chan", "Seattle", "High");
-      Restaurant secondRestaurant = new Restaurant("Seattle Chan", "Seattle", "High");
+      Restaurant firstRestaurant = new Restaurant("Seattle Chan", "Seattle", "High", 1);
+      Restaurant secondRestaurant = new Restaurant("Seattle Chan", "Seattle", "High", 1);
 
       //Assert
       Assert.Equal(firstRestaurant, secondRestaurant);
@@ -38,7 +38,7 @@ namespace BestRestaurants
     public void Test_Save_SavesToDatabase()
     {
         //Arrange
-        Restaurant testRestaurant = new Restaurant("Laredo's", "Seattle", "Medium");
+        Restaurant testRestaurant = new Restaurant("Laredo's", "Seattle", "Medium", 1);
         testRestaurant.Save();
 
         //Act
@@ -53,10 +53,10 @@ namespace BestRestaurants
     public void Test_Save_AssignsIdToObject()
     {
         //Arrange
-        Restaurant testRestaurant = new Restaurant("KFC", "Federal Way", "Low");
-
-        //Act
+        Restaurant testRestaurant = new Restaurant("KFC", "Federal Way", "Low", 1);
         testRestaurant.Save();
+        
+        //Act
         Restaurant savedRestaurant = Restaurant.GetAll()[0];
 
         int testId = testRestaurant.GetId();
@@ -70,7 +70,7 @@ namespace BestRestaurants
     public void Test_Find_FindsRestaurantInDatabase()
     {
         //Arrange
-        Restaurant testRestaurant = new Restaurant("Bang Bar", "West Seattle", "Medium");
+        Restaurant testRestaurant = new Restaurant("Bang Bar", "West Seattle", "Medium", 1);
         testRestaurant.Save();
 
         //Act
