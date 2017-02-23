@@ -193,6 +193,60 @@ namespace BestRestaurants
             return foundRestaurant;
         }
 
+        public void Update(string newName)
+        {
+          SqlConnection conn = DB.Connection();
+          conn.Open();
+
+          SqlCommand cmd = new SqlCommand("UPDATE restaurants SET name = @NewName OUTPUT INSERTED.name WHERE id = @RestaurantId;", conn);
+
+          SqlParameter newNameParameter = new SqlParameter();
+          newNameParameter.ParameterName = "@NewName";
+          newNameParameter.Value = newName;
+          cmd.Parameters.Add(newNameParameter);
+
+          SqlParameter restaurantIdParameter = new SqlParameter();
+          restaurantIdParameter.ParameterName = "@RestaurantId";
+          restaurantIdParameter.Value = this.GetId();
+          cmd.Parameters.Add(restaurantIdParameter);
+          SqlDataReader rdr = cmd.ExecuteReader();
+
+          while(rdr.Read())
+          {
+            this._name = rdr.GetString(0);
+          }
+
+          if (rdr != null)
+          {
+            rdr.Close();
+          }
+
+          if (conn != null)
+          {
+            conn.Close();
+          }
+        }
+
+        public void Delete()
+        {
+            SqlConnection conn = DB.Connection();
+            conn.Open();
+
+            SqlCommand cmd = new SqlCommand("DELETE FROM restaurants WHERE id = @RestaurantId; DELETE FROM restaurants WHERE id = @RestaurantId;", conn);
+
+            SqlParameter restaurantIdParameter = new SqlParameter();
+            restaurantIdParameter.ParameterName = "@RestaurantId";
+            restaurantIdParameter.Value = this.GetId();
+
+            cmd.Parameters.Add(restaurantIdParameter);
+            cmd.ExecuteNonQuery();
+
+            if (conn != null)
+            {
+                conn.Close();
+            }
+        }
+
         public static void DeleteAll()
         {
             SqlConnection conn = DB.Connection();
