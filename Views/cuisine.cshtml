@@ -1,5 +1,9 @@
-<h2>Here are all the restaurants in this cuisine type:</h2>
-
+@{
+  Layout="Shared/_Layout.cshtml";
+}
+<div class="jumbotron">
+<h2>Here Are All The Restaurants In This Cuisine Type:</h2>
+</div>
 @if (@Model["restaurants"].Count == 0)
 {
   <p>No restaurants have been added yet!</p>
@@ -13,5 +17,4 @@ else
     }
   </ol>
 }
-<p><a href="/restaurants/new">Add a new restaurant</a></p>
-<p><a href="/">Return to Main Page</a></p>
+<p><a href="/restaurants/new">Add New</a> | <a href="/">Return Home</a></p>

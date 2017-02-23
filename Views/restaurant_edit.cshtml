@@ -1,4 +1,9 @@
+@{
+  Layout="Shared/_Layout.cshtml";
+}
+<div class="jumbotron">
 <h1>Best Restaurants</h1>
+</div>
 <hr />
 <h2>Edit Restaurant: @Model.GetName()</h2>
 <form action="/restaurant/edit/@Model.GetId()" method="post">
@@ -6,6 +11,6 @@
   <input name="restaurant-id" type="hidden" value="@Model.GetId()">
   <label for="restaurant-name">Restaurant name</label>
   <input id="restaurant-name" name="restaurant-name" type="text">
-  <button type="submit">Submit</button>
+  <button class="btn btn-lg btn-primary" type="submit">Edit</button>
 </form>
-<h4><a href="/">Return home</a></h4>
+<p><a href="/">Return Home</a></p>

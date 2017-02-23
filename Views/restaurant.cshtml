@@ -1,8 +1,11 @@
-<h2>Restaurant Detail:</h2>
-
+@{
+  Layout="Shared/_Layout.cshtml";
+}
+<div class="jumbotron">
+<h1>Restaurant Details</h1>
+</div>
 <h3>Name: @Model.GetName()</h3>
 <h3>Location: @Model.GetLocation()</h3>
 <h3>Price: @Model.GetPrice()</h3>
 
-<p><a href="/restaurants/new">Add a new restaurant</a></p>
-<p><a href="/">Return to Main Page</a></p>
+<p><a href="/restaurants/new">Add New</a> | <a href="/">Return Home</a></p>

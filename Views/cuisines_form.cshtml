@@ -1,5 +1,12 @@
+@{
+  Layout="Shared/_Layout.cshtml";
+}
+<div class="jumbotron">
+    <h2>Add a New Cuisine</h2>
+</div>
 <form action="/cuisines/new" method="post">
   <label for="cuisines-name">Cuisine name</label>
   <input id="cuisine-name" name="cuisine-name" type="text">
-  <button type="submit">Add</button>
+  <button class="btn btn-lg btn-primary" type="submit">Add</button>
 </form>
+<p><a href="/">Return home</a></p>
