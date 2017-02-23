@@ -6,8 +6,12 @@
 <ul>
   @foreach (var cuisine in Model)
   {
-    <li><a href="/cuisines/@cuisine.GetId()">@cuisine.GetName()</a></li>
+    <li><a href="/cuisines/@cuisine.GetId()">@cuisine.GetName()</a> | <a href="/cuisine/edit/@cuisine.GetId()">Edit</a></li>
   }
 </ul>
 <a href="/cuisines/new">Add new cuisine</a>
 <p><a href="/">Return to Main Page</a></p>
+
+<form action="/cuisines/clear" method="post">
+  <button type="submit">Clear all cuisines</button>
+</form>

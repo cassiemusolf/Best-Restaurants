@@ -102,6 +102,36 @@ namespace BestRestaurants
             Assert.Equal(newName, result);
         }
 
+        [Fact]
+        public void Test_Delete_DeletesCuisineFromDatabase()
+        {
+            //Arrange
+            string name1 = "Thai";
+            Cuisine testCuisine1 = new Cuisine(name1);
+            testCuisine1.Save();
+
+            string name2 = "Mexican";
+            Cuisine testCuisine2 = new Cuisine(name2);
+            testCuisine2.Save();
+
+            Restaurant testRestaurant1 = new Restaurant("Matador", "Seattle", "Low", testCuisine1.GetId());
+            testRestaurant1.Save();
+            Restaurant testRestaurant2 = new Restaurant("Red Robin", "Northgate", "Medium", testCuisine2.GetId());
+            testRestaurant2.Save();
+
+            //Act
+            testCuisine1.Delete();
+            List<Cuisine> resultCuisines = Cuisine.GetAll();
+            List<Cuisine> testCuisineList = new List<Cuisine> {testCuisine2};
+
+            List<Restaurant> resultRestaurants = Restaurant.GetAll();
+            List<Restaurant> testRestaurantList = new List<Restaurant> {testRestaurant2};
+
+            //Assert
+            Assert.Equal(testCuisineList, resultCuisines);
+            Assert.Equal(testRestaurantList, resultRestaurants);
+        }
+
         public void Dispose()
         {
             Cuisine.DeleteAll();

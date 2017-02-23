@@ -49,6 +49,10 @@ namespace BestRestaurants
                 model.Add("restaurants", CuisineRestaurants);
                 return View["cuisine.cshtml", model];
             };
+            Get["cuisine/edit/{id}"] = parameters => {
+              Cuisine SelectedCuisine = Cuisine.Find(parameters.id);
+              return View["cuisine_edit.cshtml", SelectedCuisine];
+            };
             // Get["/restaurants/{id}"] = parameters => {
             //     Dictionary<string, object> model = new Dictionary<string, object>();
             //     var SelectedRestaurant = Restaurant.Find(parameters.id);
@@ -56,6 +60,11 @@ namespace BestRestaurants
             //     // model.Add("restaurants", RestaurantCuisines);
             //     return View["restaurant.cshtml", model];
             // };
+            Patch["cuisine/edit/{id}"] = parameters => {
+                Cuisine SelectedCuisine = Cuisine.Find(parameters.id);
+                SelectedCuisine.Update(Request.Form["cuisine-name"]);
+                return View["success.cshtml"];
+            };
         }
     }
 }
