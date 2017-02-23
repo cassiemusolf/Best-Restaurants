@@ -84,6 +84,23 @@ namespace BestRestaurants
             Assert.Equal(testRestaurantList, resultRestaurantList);
         }
 
+        [Fact]
+        public void Test_Update_UpdatesCuisineInDatabase()
+        {
+            //Arrange
+            string name = "Mexican";
+            Cuisine testCuisine = new Cuisine(name);
+            testCuisine.Save();
+            string newName = "Italian";
+
+            //Act
+            testCuisine.Update(newName);
+
+            string result = testCuisine.GetName();
+
+            //Assert
+            Assert.Equal(newName, result);
+        }
 
         public void Dispose()
         {
