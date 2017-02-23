@@ -50,19 +50,34 @@ namespace BestRestaurants
                 return View["cuisine.cshtml", model];
             };
             Get["cuisine/edit/{id}"] = parameters => {
-              Cuisine SelectedCuisine = Cuisine.Find(parameters.id);
-              return View["cuisine_edit.cshtml", SelectedCuisine];
+                Cuisine SelectedCuisine = Cuisine.Find(parameters.id);
+                return View["cuisine_edit.cshtml", SelectedCuisine];
             };
             // Get["/restaurants/{id}"] = parameters => {
             //     Dictionary<string, object> model = new Dictionary<string, object>();
             //     var SelectedRestaurant = Restaurant.Find(parameters.id);
+            //     var CuisineRestaurants = SelectedRestaurant.GetName();
             //     model.Add("restaurant", SelectedRestaurant);
-            //     // model.Add("restaurants", RestaurantCuisines);
+            //     model.Add("restaurants", CuisineRestaurants);
             //     return View["restaurant.cshtml", model];
             // };
+            Get["/restaurants/{id}"] = parameters =>
+            {
+              Restaurant restaurant = Restaurant.Find(parameters.id);
+              return View["restaurant.cshtml", restaurant];
+            };
             Patch["cuisine/edit/{id}"] = parameters => {
                 Cuisine SelectedCuisine = Cuisine.Find(parameters.id);
                 SelectedCuisine.Update(Request.Form["cuisine-name"]);
+                return View["success.cshtml"];
+            };
+            Get["cuisine/delete/{id}"] = parameters => {
+                Cuisine SelectedCuisine = Cuisine.Find(parameters.id);
+                return View["cuisine_delete.cshtml", SelectedCuisine];
+            };
+            Delete["cuisine/delete/{id}"] = parameters => {
+                Cuisine SelectedCuisine = Cuisine.Find(parameters.id);
+                SelectedCuisine.Delete();
                 return View["success.cshtml"];
             };
         }
