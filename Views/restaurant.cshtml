@@ -1,11 +1,13 @@
 @{
   Layout="Shared/_Layout.cshtml";
 }
-<div class="jumbotron">
-<h1>Restaurant Details</h1>
+<div class="jumbotron restaurants">
+<h1>Best Restaurants</h1>
 </div>
+<div class="container">
 <h3>Name: @Model.GetName()</h3>
 <h3>Location: @Model.GetLocation()</h3>
 <h3>Price: @Model.GetPrice()</h3>
 
 <p><a href="/restaurants/new">Add New</a> | <a href="/">Return Home</a></p>
+</div>

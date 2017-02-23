@@ -1,28 +1,40 @@
 @{
   Layout="Shared/_Layout.cshtml";
 }
-<div class="jumbotron">
-<h1>Add a New Restaurant</h1>
+<div class="jumbotron restaurants">
+<h1>Best Restaurants</h1>
 </div>
+<div class="container">
 <form action="/restaurants/new" method="post">
-    <label for="restaurant-name">Restaurant Name:</label>
-    <input id="restaurant-name" name="restaurant-name" type="text">
-    <label for="restaurant-location">Restaurant Location:</label>
-    <input id="restaurant-location" name="restaurant-location" type="text">
-
-    <label for="restaurant-price">Price Range:</label>
-    <select name="restaurant-price">
-        <option>Low</option>
-        <option>Medium</option>
-        <option>Expensive</option>
-    </select>
-    <select name="cuisine-id">
-        @foreach (var cuisine in Model)
-        {
-            <option value="@cuisine.GetId()">@cuisine.GetName()</option>
-        }
-    </select>
+    <div class="form-group">
+        <label for="restaurant-name">Restaurant Name:
+        <input id="restaurant-name" name="restaurant-name" type="text"></label>
+    </div>
+    <div class="form-group">
+        <label for="restaurant-location">Restaurant Location:
+        <input id="restaurant-location" name="restaurant-location" type="text"></label>
+    </div>
+    <div class="form-group">
+        <label for="restaurant-price">Price Range:
+        <select name="restaurant-price">
+            <option>Low</option>
+            <option>Medium</option>
+            <option>Expensive</option>
+        </select>
+        </label>
+    </div>
+    <div class="form-group">
+        <label for="restaurant-cuisine">Cuisine Type:
+        <select name="cuisine-id">
+            @foreach (var cuisine in Model)
+            {
+                <option value="@cuisine.GetId()">@cuisine.GetName()</option>
+            }
+        </select>
+        </label>
+    </div>
     <button class="btn btn-lg btn-primary" type="submit">Add New</button>
 </form>
 
 <p><a href="/restaurants">View All</a> | <a href="/">Return Home</a></p>
+</div>

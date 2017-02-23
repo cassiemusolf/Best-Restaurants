@@ -1,16 +1,22 @@
 @{
-  Layout="Shared/_Layout.cshtml";
+    Layout="Shared/_Layout.cshtml";
 }
-<div class="jumbotron">
-<h1>Best Restaurants</h1>
+<div class="jumbotron cuisine">
+    <h1>Best Restaurants</h1>
 </div>
 <hr />
-<h2>Edit cuisine: @Model.GetName()</h2>
+<div class="container">
+<h2>Edit Cuisine: @Model.GetName()</h2>
 <form action="/cuisine/edit/@Model.GetId()" method="post">
-  <input type="hidden" name="_method" value="PATCH">
-  <input name="cuisine-id" type="hidden" value="@Model.GetId()">
-  <label for="cuisine-name">Cuisine name</label>
-  <input id="cuisine-name" name="cuisine-name" type="text">
-  <button class="btn btn-lg btn-primary" type="submit">Edit</button>
-</form>
-<p><a href="/">Return home</a></p>
+    <div class="form-group">
+        <input type="hidden" name="_method" value="PATCH">
+        <input name="cuisine-id" type="hidden" value="@Model.GetId()">
+        <label for="cuisine-name">Cuisine name:
+            <input id="cuisine-name" name="cuisine-name" type="text"></label>
+        </div>
+        <div class="buttons">
+            <button class="btn btn-lg btn-primary" type="submit">Edit</button>
+        </div>
+    </form>
+    <p><a href="/">Return Home</a></p>
+</div>
