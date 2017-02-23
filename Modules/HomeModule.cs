@@ -41,6 +41,10 @@ namespace BestRestaurants
                 Restaurant.DeleteAll();
                 return View["cleared.cshtml"];
             };
+            Post["/cuisines/delete"] = _ => {
+                Cuisine.DeleteAll();
+                return View["cleared.cshtml"];
+            };
             Get["/cuisines/{id}"] = parameters => {
                 Dictionary<string, object> model = new Dictionary<string, object>();
                 var SelectedCuisine = Cuisine.Find(parameters.id);
@@ -53,14 +57,6 @@ namespace BestRestaurants
                 Cuisine SelectedCuisine = Cuisine.Find(parameters.id);
                 return View["cuisine_edit.cshtml", SelectedCuisine];
             };
-            // Get["/restaurants/{id}"] = parameters => {
-            //     Dictionary<string, object> model = new Dictionary<string, object>();
-            //     var SelectedRestaurant = Restaurant.Find(parameters.id);
-            //     var CuisineRestaurants = SelectedRestaurant.GetName();
-            //     model.Add("restaurant", SelectedRestaurant);
-            //     model.Add("restaurants", CuisineRestaurants);
-            //     return View["restaurant.cshtml", model];
-            // };
             Get["/restaurants/{id}"] = parameters =>
             {
               Restaurant restaurant = Restaurant.Find(parameters.id);
