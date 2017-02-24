@@ -21,6 +21,14 @@
     color: white;
 }
 
+.success {
+    background-image: url('../image/dish.jpg');
+    background-size: cover;
+    color: white;
+    background-position: bottom;
+    text-shadow: 2px 2px black;
+}
+
 .cuisine {
     background-image: url('../image/greennoodles.jpeg');
     background-size: cover;
@@ -44,6 +52,11 @@ p {
     margin-top: 40px;
 }
 
+.successpage {
+    text-align: center;
+    margin-top: 50px;
+}
+
 label {
     font-size: 25px;
 }
@@ -56,14 +69,22 @@ h3 {
     text-align: center;
 }
 
+h4 {
+    font-size: 20px;
+}
+
+.intro {
+    margin: 70px 0px;
+}
+
 input, select {
     margin-left: 20px;
     padding: 8px;
 }
-
+/*
 .buttons, .form-group {
     float: left;
-}
+}*/
 
 .buttons {
     margin-left: 40px;

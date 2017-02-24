@@ -11,12 +11,13 @@
 }
 else
 {
-  <ol>
+<h2>Restaurants In Your Cuisine:</h2>
+  <ul>
     @foreach (var restaurant in @Model["restaurants"])
     {
       <li><a href="/restaurants/@restaurant.GetId()">@restaurant.GetName()</a></li>
     }
-  </ol>
+  </ul>
 }
 <p><a href="/restaurants/new">Add New</a> | <a href="/">Return Home</a></p>
 </div>
